@@ -1,2 +1,2 @@
 # AudioVisualizer
-A music player which can visualize music, base on Java
+A music player which can visualize music, based on Java
