@@ -8,11 +8,16 @@ import java.io.File;
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 
-public class test extends PApplet{
+public class PlayerPanel extends PApplet{
 	AudioMetaData meta;
 	Minim minim;
 	AudioPlayer player;
 	FFT fft;
+	
+	int blue = color(33, 57, 55);
+	int white = color(237, 221, 187);
+	int grey = color(61, 59, 38);
+	int black = color(12, 10, 11);
 	
 	int playButtonAlpha = 150;
 	int loadFileAlpha = 150;
@@ -23,10 +28,6 @@ public class test extends PApplet{
 	String title = "";
 	
 	boolean fileLoaded = false;
-	int blue = color(33, 57, 55);
-	int white = color(237, 221, 187);
-	int grey = color(61, 59, 38);
-	int black = color(12, 10, 11);
 	PFont Arial;
 	PImage bckgrd;
 
@@ -37,6 +38,7 @@ public class test extends PApplet{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PApplet.main("test");
+//		Bottons bt = new Bottons();
 
 	}
 	
@@ -113,7 +115,6 @@ public class test extends PApplet{
     	loadButton();
     	progressBar();
     	volumeSlider();
-    	frameAndIcon("IgNite", "icon.png");
     }
     
     public void loadButton() {
@@ -196,18 +197,4 @@ public class test extends PApplet{
 	    volumeSliderX = mouseX;
 	  }
     }
-    
-    public void frameAndIcon(String frameText, String iconFilename) {
-//	  if ( fai_filename == null || !fai_filename.equals(iconFilename) ) {
-//		    fai_iconi = loadImage(iconFilename);
-//		    fai_icong = createGraphics(64, 64, JAVA2D);                                        //Changes the prorgam icon.
-//		    fai_filename = iconFilename;
-//		  }
-//		  frame.setTitle( frameText );
-//		  fai_icong.beginDraw();
-//		  fai_icong.image( fai_iconi, 0, 0 );                                                 //Changes name.
-//		  fai_icong.endDraw();
-//		  frame.setIconImage(fai_icong.image);
-    }
-
 }
