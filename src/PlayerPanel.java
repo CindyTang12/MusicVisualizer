@@ -37,8 +37,7 @@ public class PlayerPanel extends PApplet{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PApplet.main("test");
-//		Bottons bt = new Bottons();
+		PApplet.main("PlayerPanel");
 
 	}
 	
