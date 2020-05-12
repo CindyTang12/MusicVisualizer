@@ -3,19 +3,19 @@ package Stardust;
 import processing.core.PApplet;
 
 public class Test extends PApplet{
-	int pq = 10000;
+	int pq = 8000;
 	float[] posX = new float[pq];
 	float[] posY = new float[pq];
 	float[] velX = new float[pq];
 	float[] velY = new float[pq];
-
+	
 	public static void main(String[] args) {
 		PApplet.main("Stardust.Test");
 
 	}
 	
 	public void settings() {
-		size(512, 512);
+		size(1000, 618);
 	}
 	
 	public void setup() {
@@ -24,6 +24,7 @@ public class Test extends PApplet{
 			posX[i] = random(0, width);
 			posY[i] = random(0, height);
 		}
+		
 	}
 	
 	public void draw() {
@@ -36,8 +37,8 @@ public class Test extends PApplet{
 		
 		for(int i = 1; i < pq; i++) {
 			float num = 1024 / (sq(posX[0] - posX[i]) + sq(posY[0] - posY[i]));
-			velX[i] = (float) (velX[i] * 0.95 + (velX[0] - velX[i]) * num);
-			velY[i] = (float) (velY[i] * 0.95 + (velY[0] - velY[i]) * num);
+			velX[i] = (float) (velX[i] + (velX[0] - velX[i]) * num);
+			velY[i] = (float) (velY[i] + (velY[0] - velY[i]) * num);
 			
 			posX[i] += velX[i];
 			posY[i] += velY[i];
