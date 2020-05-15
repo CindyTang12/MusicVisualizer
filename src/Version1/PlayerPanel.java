@@ -14,6 +14,8 @@ public class PlayerPanel extends PApplet{
 	Minim minim;
 	AudioPlayer player;
 	FFT fft;
+	String filepath;
+	Visualization1 vl = new Visualization1();
 	
 	int blue = color(33, 57, 55);
 	int white = color(237, 221, 187);
@@ -35,12 +37,11 @@ public class PlayerPanel extends PApplet{
 	float songProgress;
 	float volume = (float) 0.5;
 	float volumeSliderX;
+//	
+//	public static void main(String[] args) {
+//		PApplet.main("Version1.PlayerPanel");
+//	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		PApplet.main("Version1.PlayerPanel");
-
-	}
 	
 	// method used only for setting the size of the window
     public void settings(){
@@ -53,10 +54,8 @@ public class PlayerPanel extends PApplet{
         stroke(255);
         strokeWeight(10);
         Arial = loadFont("data/Arial.vlw");
-        bckgrd = loadImage("background.png");
         volumeSliderX = width-30;
         minim = new Minim(this);
-        
     }
 
     // identical use to draw in Processing IDE
@@ -94,22 +93,22 @@ public class PlayerPanel extends PApplet{
 		
 	  }
 	}
-    
+
     public void fileSelected(File selection) {
 	  if (selection == null) {
 	    println("Window was closed or the user hit cancel.");
 	  } else {
-		String filepath = selection.getAbsolutePath();
-	    println("User selected " + filepath);
+		filepath = selection.getAbsolutePath();
 	    player = minim.loadFile(filepath);
-	    fft = new FFT( player.bufferSize(), player.sampleRate());
-	    meta = player.getMetaData();
 	    fileLoaded = true;
-	    title = meta.title();
 	  }
 	}
-
     
+    public boolean playing() {
+    	if(state == "PAUSE") return true;
+    	else return false;
+    }
+
     public void bottons() {
     	playButton();
     	loadButton();
