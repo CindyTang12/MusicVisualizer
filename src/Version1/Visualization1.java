@@ -39,16 +39,6 @@ public class Visualization1 extends PApplet{
 	  fill(-1, 10);
 	  stroke(-1, 50);
 	  int bsize = player.bufferSize();
-	  // lines
-	  for (int i = 0; i < bsize - 1; i+=5)
-	  {
-	    float x = (r)*cos(i*2*PI/bsize);
-	    float y = (r)*sin(i*2*PI/bsize);
-	    float x2 = (r + player.left.get(i)*150)*cos(i*2*PI/bsize);
-	    float y2 = (r + player.left.get(i)*150)*sin(i*2*PI/bsize);
-	    line(x, y, x2, y2);
-	  }
-	  // points
 	  beginShape();
 	  noFill();
 	  stroke(-1, 50);

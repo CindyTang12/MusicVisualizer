@@ -33,26 +33,23 @@ public class PlayerPanel extends PApplet{
 	boolean fileLoaded = false;
 	PFont Arial;
 	PImage bckgrd;
-
-	float songProgress;
 	float volume = (float) 0.5;
 	float volumeSliderX;
-//	
-//	public static void main(String[] args) {
-//		PApplet.main("Version1.PlayerPanel");
-//	}
+	
+	public static void main(String[] args) {
+		PApplet.main("Version1.PlayerPanel");
+	}
 
 	
 	// method used only for setting the size of the window
     public void settings(){
-    	size(400,400);
-    	smooth(28);
+    	size(600,600);
     }
 
     // identical use to setup in Processing IDE except for size()
     public void setup(){
-        stroke(255);
-        strokeWeight(10);
+//        stroke(255);
+//        strokeWeight(10);
         Arial = loadFont("data/Arial.vlw");
         volumeSliderX = width-30;
         minim = new Minim(this);
@@ -60,7 +57,9 @@ public class PlayerPanel extends PApplet{
 
     // identical use to draw in Processing IDE
     public void draw(){
-    	background(0);
+    	fill(26, 21, 24, 20);
+		noStroke();
+		rect(0, 0, width, height);
     	if (fileLoaded) {
 //    	    soundVision();                  //Calls visualizer function
     	    player.setGain(volume);
@@ -69,8 +68,13 @@ public class PlayerPanel extends PApplet{
     	    textSize(21);    //Prints title out
     	    textAlign(CENTER);
     	    text(title, width/2, 30);
+    	    fft = new FFT(player.bufferSize(), player.sampleRate()/2);
+    	    fft.forward(player.mix);
     	  }
     	bottons();
+    	if(playing()) {
+    		go();
+    	}
     }
     
     public void mouseReleased() {
@@ -112,7 +116,6 @@ public class PlayerPanel extends PApplet{
     public void bottons() {
     	playButton();
     	loadButton();
-    	progressBar();
     	volumeSlider();
     }
     
@@ -129,7 +132,6 @@ public class PlayerPanel extends PApplet{
   	  }
   	  stroke(grey, loadFileAlpha);
 	  fill(255, loadFileAlpha);
-	  strokeWeight(4);
 	  rect(-4+x, -4+y, 120, 40);
 
 	  textAlign(CENTER);
@@ -150,7 +152,6 @@ public class PlayerPanel extends PApplet{
   	  }
   	  stroke(white, playButtonAlpha);
   	  fill(255, playButtonAlpha);
-  	  strokeWeight(4);
   	  rect(-4, -4, 90, 50);
 
   	  textAlign(CENTER);
@@ -158,31 +159,6 @@ public class PlayerPanel extends PApplet{
   	  textSize(10);
   	  textFont(Arial);
   	  text(state, 42, 30);
-    }
-    
-    public void progressBar() {
-	  if (fileLoaded) songProgress = map(player.position(), 0, player.length(), 0, width);
-
-	  if (mouseY < height-20 && mouseY > 20 && mouseX > 20 && mouseX < width-20 ) {
-	    stroke(black);
-	    if (progressBarAlpha<255) {
-	      progressBarAlpha+=10;
-	    }
-	  } else if (progressBarAlpha>50) {
-	    progressBarAlpha-=7;
-	  }
-
-	  fill(blue, progressBarAlpha);
-	  stroke(grey, progressBarAlpha);  
-	  line(0, height-40, width, height-40);  //static line.
-
-	  fill(black, progressBarAlpha);
-	  textSize(14);
-	  textAlign(LEFT);
-	  if (fileLoaded) text(player.position()/60000 + ":" + nf(player.position()%60000/1000,2) + "/" + player.length()/60000 + ":" + player.length()%60000/1000, 5, height-20);
-
-	  stroke(0, 160, 176, progressBarAlpha+50);
-	  line(0, height-40, songProgress, height-40); // progress
     }
     
     public void volumeSlider() {
@@ -196,4 +172,41 @@ public class PlayerPanel extends PApplet{
 	    volumeSliderX = mouseX;
 	  }
     }
+    
+    public void go() {
+		float radius = 150;
+		  translate(width/2, height/2);
+		  fill(-1, 10);
+		  stroke(-1, 50);
+		  int bsize = player.bufferSize();
+		  beginShape();
+		  noFill();
+		  for (int i = 0; i < bsize; i+=30)
+		  {
+		    float x2 = (radius + player.left.get(i)*40)*cos(i*2*PI/bsize);
+		    float y2 = (radius + player.left.get(i)*40)*sin(i*2*PI/bsize);
+		    vertex(x2, y2);
+		    pushStyle();
+		    stroke(-1);
+		    strokeWeight(1);
+		    popStyle();
+		  }
+		  endShape();
+	    noFill();
+		// 给定长度为1024的信号，频谱中将有512个频带，每个频带的宽度为23Hz
+		 for (int i = 0; i < fft.specSize(); i+=2)
+		 {
+			 if(fft.getBand(i) > 0.2) {
+				 float rad = map(i, 0, fft.specSize() - 200, 0, (float) (2 * Math.PI));
+				 rad = (float) (rad - Math.PI/2);
+				 float posX = (float) ((radius + fft.getBand(i)) * cos(rad));
+				 float posY = (float) ((radius + fft.getBand(i)) * sin(rad));
+			     line(radius * cos(rad), radius * sin(rad), posX, posY);
+			 }
+			 else {
+				 noStroke();
+			 }
+		 }
+		 
+	}
 }
