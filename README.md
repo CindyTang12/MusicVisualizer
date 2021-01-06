@@ -1,2 +1,2 @@
-# AudioVisualizer
-A music player which can visualize music, based on Java
+# MusicVisualizer 大四上学期数字语音处理结课作业——基于Java的音乐可视化播放器
+音乐旋律的动态实时可视化可以很好地表达音乐的旋律，通过快速傅里叶变换分析进行相应频率的转换，对音乐中的重要特征进行提取并解析，再将这些特征通过Processing库中的可视化工具进行可视化，可以使人们通过视觉的方式更加直观的理解音乐。
